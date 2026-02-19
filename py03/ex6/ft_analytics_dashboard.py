@@ -14,11 +14,6 @@ def player_factory() -> list:
                Player('Diego', 2050, True, 'West'),
                Player('Eliana', 420, False, 'East'),
                Player('Francesco', 8, False, 'North')]
-               # Player('Ginevra', 123, False),
-               # Player('Italo', 2, False),
-               # Player('Ludovica', 69, True),
-               # Player('Matilde', 42, False),
-               # Player('Nicola', 0, False)]
     a1 = {'first_kill', 'level_10', 'boss_slayer', 'aldo_moro'}
     a2 = {'level_20', 'brigata_rossa', 'ecoterrorista'}
     a3 = {'level_30', 'miner', 'bombarolo', 'ecoterrorista'}
