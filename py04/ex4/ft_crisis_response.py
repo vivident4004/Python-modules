@@ -41,5 +41,6 @@ def ft_crisis_response() -> None:
 
     print("\nAll crisis scenarios handled successfully. Archives secure.")
 
+
 if __name__ == "__main__":
     ft_crisis_response()
