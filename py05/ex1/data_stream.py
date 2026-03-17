@@ -3,7 +3,7 @@ from typing import List, Any, Optional, Dict, Union
 
 
 class DataStream(ABC):
-    def __init__(self, stream_id: str):
+    def __init__(self, stream_id: str) -> None:
         self.stream_id = stream_id
 
     @abstractmethod
@@ -20,7 +20,7 @@ class DataStream(ABC):
 
 
 class SensorStream(DataStream):
-    def __init__(self, stream_id: str):
+    def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         print("\nInitializing sensor stream...")
         print(f"Stream ID: {self.stream_id}, type: environmental data")
@@ -49,7 +49,7 @@ class SensorStream(DataStream):
 
 
 class TransactionStream(DataStream):
-    def __init__(self, stream_id: str):
+    def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         print("\nInitializing transaction stream...")
         print(f"Stream ID: {self.stream_id}, type: financial data")
@@ -77,7 +77,7 @@ class TransactionStream(DataStream):
 
 
 class EventStream(DataStream):
-    def __init__(self, stream_id: str):
+    def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         print("\nInitializing event stream...")
         print(f"Stream ID: {self.stream_id}, type: system events")
@@ -105,13 +105,13 @@ class EventStream(DataStream):
 
 
 class StreamProcessor:
-    def __init__(self):
+    def __init__(self) -> None:
         self.streams: List[DataStream] = []
 
-    def load_streams(self, raw_streams: List[Any]):
+    def load_streams(self, raw_streams: List[Any]) -> None:
         self.streams = [s for s in raw_streams if isinstance(s, DataStream)]
 
-    def execute_pipeline(self):
+    def execute_pipeline(self) -> None:
         try:
             print("\n=== Polymorphic stream processing ===")
             print("Processing mixed stream types "
