@@ -1,0 +1,15 @@
+# Secret configuration
+.env
+
+# Python virtual environments
+matrix_env/
+venv/
+.venv/
+
+# Byte-compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Output artefacts
+matrix_analysis.png
