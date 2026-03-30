@@ -11,5 +11,6 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Output artefacts
-matrix_analysis.png
+# Outputs
+*.png
+*.csv

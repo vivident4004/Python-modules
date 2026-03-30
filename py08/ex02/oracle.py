@@ -3,7 +3,6 @@ import re
 from dotenv import load_dotenv
 
 
-# Variables the application expects in its configuration
 REQUIRED_VARS = [
     "MATRIX_MODE",
     "DATABASE_URL",
