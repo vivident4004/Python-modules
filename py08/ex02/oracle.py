@@ -54,7 +54,7 @@ def is_ignored(filename: str) -> bool:
     if not os.path.isfile(".gitignore"):
         return False
     try:
-        with open(".gitignore", "r", encoding="utf-8") as f:
+        with open(".gitignore", "r") as f:
             entries = [
                 line.strip()
                 for line in f
@@ -78,22 +78,20 @@ def check_env_file() -> tuple[bool, str]:
     )
 
 
-def check_example_file() -> tuple[bool, str]:
-    """Check that a safe template exists for collaborators."""
-    if os.path.isfile(".env.example"):
-        return True, ".env.example present"
-    return False, ".env.example not found"
+def check_missing(missing: list[str]) -> tuple[bool, str]:
+    if not missing:
+        return True, "all required variables are set"
+    return False, f"missing variables: {', '.join(missing)}"
 
 
 def check_production_override() -> tuple[bool, str]:
-    """Document that shell env vars always override .env values."""
-    return True, "shell env vars take precedence over .env (load_dotenv)"
+    return True, "Production overrides available"
 
 
-def print_security_check() -> None:
+def print_security_check(missing: list[str]) -> None:
     checks = [
         check_env_file(),
-        check_example_file(),
+        check_missing(missing),
         check_production_override(),
     ]
     print("\nEnvironment security check:")
@@ -103,19 +101,11 @@ def print_security_check() -> None:
 
 
 def main() -> None:
-    print("ORACLE STATUS: reading the Matrix...")
-    print()
-
+    print("\nORACLE STATUS: reading the Matrix...\n")
     config = load_config()
     missing = get_missing(config)
-
-    if missing:
-        print(f"WARNING: missing variables: {', '.join(missing)}")
-        print("Copy .env.example to .env and fill in the values.")
-        print()
-
     print_config(config)
-    print_security_check()
+    print_security_check(missing)
     print("\nThe Oracle sees all configurations.")
 
 
