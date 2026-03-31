@@ -45,9 +45,9 @@ def print_environment_report() -> None:
         print(f"Current python: {info['python_executable']}")
         print(f"Virtual environment: {info.get('env_name')}")
         print(f"Environment path: {info.get('env_path')}")
-        print("\nSUCCESS: you're in an isolated environment!"
-              "\nSafe to install packages without affecting the global system.")
-        print(f"Package installation path: {info.get('packages_path')}")
+        print("\nSUCCESS: you're in an isolated environment!")
+        print("Safe to install packages without affecting the global system.")
+        print(f"Package installation path:\n{info.get('packages_path')}")
     else:
         print("\nMATRIX STATUS: you're still plugged in\n")
         print(f"Current python: {info['python_executable']}")

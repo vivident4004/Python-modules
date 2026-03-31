@@ -3,16 +3,10 @@ import importlib.util
 from typing import Any
 
 
-# The three packages this program depends on
 REQUIRED_PACKAGES = ["pandas", "numpy", "matplotlib"]
 
 
 def check_dependency(package_name: str) -> tuple[bool, str]:
-    """Check if a package is importable. Return (ok, version_or_error).
-
-    Uses find_spec first (no side effects) and only imports to read
-    the version if the package is actually present.
-    """
     if importlib.util.find_spec(package_name) is None:
         return False, "not installed"
     try:
@@ -24,19 +18,14 @@ def check_dependency(package_name: str) -> tuple[bool, str]:
 
 
 def check_all_dependencies() -> dict[str, tuple[bool, str]]:
-    """Return check results for every required package."""
     return {pkg: check_dependency(pkg) for pkg in REQUIRED_PACKAGES}
 
 
 def all_dependencies_ok(results: dict[str, tuple[bool, str]]) -> bool:
-    """Return True only if every dependency is available."""
     return all(ok for ok, _ in results.values())
 
 
-def print_dependency_status(
-    results: dict[str, tuple[bool, str]]
-) -> None:
-    """Print a line per package showing its status and version."""
+def print_dependency_status(results: dict[str, tuple[bool, str]]) -> None:
     print("Checking dependencies:")
     for pkg, (ok, info) in results.items():
         tag = "[OK]     " if ok else "[MISSING]"
@@ -44,16 +33,13 @@ def print_dependency_status(
 
 
 def generate_matrix_data() -> tuple[Any, Any, Any]:
-    """Simulate resistance signal data using numpy arrays."""
     import numpy as np
 
     time = np.arange(0, 1000)
-    # Zion signal: sine wave with added noise
     zion = (
         np.sin(time * 0.05) * 50 + 50
         + np.random.normal(0, 3, 1000)
     )
-    # Machine signal: cosine wave with added noise
     machines = (
         np.cos(time * 0.05) * 50 + 50
         + np.random.normal(0, 3, 1000)
@@ -62,7 +48,6 @@ def generate_matrix_data() -> tuple[Any, Any, Any]:
 
 
 def analyze_data(time: Any, zion: Any, machines: Any) -> None:
-    """Load data into a DataFrame and print a short summary."""
     import pandas as pd
 
     df = pd.DataFrame({
@@ -78,7 +63,6 @@ def analyze_data(time: Any, zion: Any, machines: Any) -> None:
 
 
 def generate_visualization(time: Any, zion: Any, machines: Any) -> None:
-    """Save a matplotlib plot of the signal data to disk."""
     import matplotlib
 
     # Use a non-interactive backend: we want a file, not a GUI window
@@ -87,14 +71,14 @@ def generate_visualization(time: Any, zion: Any, machines: Any) -> None:
 
     print("Generating visualization...")
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(time, zion, label="Zion Signal", color="green", alpha=0.8)
+    ax.plot(time, zion, label="Zion signal", color="green", alpha=0.8)
     ax.plot(
         time, machines,
-        label="Machine Signal", color="red", alpha=0.8
+        label="Machine signal", color="red", alpha=0.8
     )
-    ax.set_title("Matrix Signal Analysis")
+    ax.set_title("Matrix signal analysis")
     ax.set_xlabel("Time")
-    ax.set_ylabel("Signal Strength")
+    ax.set_ylabel("Signal strength")
     ax.legend()
     fig.tight_layout()
 
@@ -104,18 +88,6 @@ def generate_visualization(time: Any, zion: Any, machines: Any) -> None:
 
     print("\nAnalysis complete!")
     print(f"Results saved to: {output_file}")
-
-
-def show_pip_vs_poetry() -> None:
-    """Print a side-by-side comparison of pip and Poetry."""
-    print()
-    print("--- pip vs Poetry ---")
-    print("pip:    installs into whatever environment is currently active")
-    print("        version pinning is done manually via requirements.txt")
-    print("        no automatic lock file (use 'pip freeze')")
-    print("Poetry: creates and manages its own venv automatically")
-    print("        pyproject.toml + poetry.lock guarantee reproducibility")
-    print("        resolves dependency conflicts before installing")
 
 
 def main() -> None:
@@ -138,7 +110,6 @@ def main() -> None:
     time, zion, machines = generate_matrix_data()
     analyze_data(time, zion, machines)
     generate_visualization(time, zion, machines)
-    show_pip_vs_poetry()
 
 
 if __name__ == "__main__":
