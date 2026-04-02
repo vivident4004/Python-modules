@@ -1,36 +1,37 @@
+from collections.abc import Callable
 from typing import Any
 
 
-def mage_counter() -> callable:
+def mage_counter() -> Callable:
     i = 0
 
-    # counter() is a closure
-    def counter():
+    def counter() -> int:
         nonlocal i
         i += 1
         return i
     return counter
 
 
-def spell_accumulator(initial_power: int) -> callable:
-    def accumulator():
-        nonlocal initial_power
-        initial_power += 1
-        return initial_power
+def spell_accumulator(initial_power: int) -> Callable:
+    total = initial_power
+
+    def accumulator(amount: int) -> int:
+        nonlocal total
+        total += amount
+        return total
     return accumulator
 
 
-def enchantment_factory(enchantment_type: str) -> callable:
+def enchantment_factory(enchantment_type: str) -> Callable:
     def factory(item: str) -> str:
         return enchantment_type + " " + item
     return factory
 
 
-def memory_vault() -> dict[str, callable]:
-    dic = dict()
+def memory_vault() -> dict[str, Callable]:
+    dic: dict = {}
 
     def store(key: str, value: Any) -> None:
-        nonlocal dic
         dic[key] = value
 
     def recall(key: str) -> Any:
@@ -41,27 +42,28 @@ def memory_vault() -> dict[str, callable]:
 
 def main() -> None:
     print("\nTesting mage counter...")
-    c = mage_counter()
-    for i in range(1, 4):
-        print(f"Call {i}: {c()}")
+    counter_a = mage_counter()
+    counter_b = mage_counter()
+    print(f"counter_a call 1: {counter_a()}")
+    print(f"counter_a call 2: {counter_a()}")
+    print(f"counter_b call 1: {counter_b()}")
 
     print("\nTesting spell accumulator...")
-    s = spell_accumulator(41)
-    for i in range(1, 4):
-        print(f"Call {i}: {s()}")
+    s = spell_accumulator(100)
+    print(f"Base 100, add 20: {s(20)}")
 
     print("\nTesting enchantment factory...")
-    objects = ["Sword", "Shield", "Topo", "Gigio"]
-    f = enchantment_factory("Flaming")
-    for bertozz in objects:
-        print(f(bertozz))
+    flaming = enchantment_factory("Flaming")
+    frozen = enchantment_factory("Frozen")
+    print(flaming("Sword"))
+    print(frozen("Shield"))
 
     print("\nTesting memory vault...")
     m = memory_vault()
-    print("Storing 'secret' = 42")
+    print("Store 'secret' = 42")
     m["store"]('secret', 42)
-    print("Recalling 'secret':", m["recall"]('secret'))
-    print("Recalling 'unknown':", m["recall"]('unknown'))
+    print("Recall 'secret':", m["recall"]('secret'))
+    print("Recall 'unknown':", m["recall"]('unknown'))
 
 
 if __name__ == "__main__":

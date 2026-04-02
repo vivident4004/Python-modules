@@ -1,29 +1,28 @@
 import random
+from collections.abc import Callable
 from typing import Any
 
 
-def spell_combiner(spell1: callable, spell2: callable) -> callable:
+def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
     def combined(spell: str) -> tuple[str, str]:
-        var1 = str(spell1(spell))
-        var2 = str(spell2(spell))
-        return var1, var2
+        return str(spell1(spell)), str(spell2(spell))
     return combined
 
 
-def power_amplifier(base_spell: callable, multiplier: int) -> callable:
+def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
     def mult(*args: Any, **kwargs: Any) -> int:
         return multiplier * base_spell(*args, **kwargs)
     return mult
 
 
-def conditional_caster(condition: callable, spell: callable) -> callable:
+def conditional_caster(condition: Callable, spell: Callable) -> Callable:
     def caster(*args: Any, **kwargs: Any) -> str:
         return spell(*args, **kwargs) if condition() else "Spell fizzled"
     return caster
 
 
-def spell_sequence(spells: list[callable]) -> callable:
-    def cast_all(*args: Any, **kwargs: Any) -> Any:
+def spell_sequence(spells: list[Callable]) -> Callable:
+    def cast_all(*args: Any, **kwargs: Any) -> list:
         return [spell(*args, **kwargs) for spell in spells]
     return cast_all
 
@@ -42,12 +41,11 @@ def main() -> None:
         return 42
 
     print("\nTesting power amplifier")
-    print(f"Original: {power()}, amplified: {power_amplifier(power, 3)()}")
+    print(f"Original: {power()}, amplified: "
+          f"{power_amplifier(power, 3)()}")
 
     def verificatore() -> bool:
-        if random.randint(0, 1) == 1:
-            return True
-        return False
+        return random.randint(0, 1) == 1
 
     print("\nTesting conditional caster")
     print(conditional_caster(verificatore, fireball)("Dragon"))
